@@ -13,9 +13,9 @@ else
 	CFLAGS += -O2
 endif
 
-HEADERS = $(SRCDIR)/common.hh $(SRCDIR)/communication.hh $(SRCDIR)/config.hh $(SRCDIR)/connections.hh $(SRCDIR)/containers.hh $(SRCDIR)/cr.hh $(SRCDIR)/crypto.hh $(SRCDIR)/enums.hh $(SRCDIR)/houses.hh $(SRCDIR)/info.hh $(SRCDIR)/magic.hh $(SRCDIR)/map.hh $(SRCDIR)/moveuse.hh $(SRCDIR)/objects.hh $(SRCDIR)/operate.hh $(SRCDIR)/query.hh $(SRCDIR)/reader.hh $(SRCDIR)/script.hh $(SRCDIR)/threads.hh $(SRCDIR)/writer.hh
+HEADERS = $(SRCDIR)/common.hh $(SRCDIR)/communication.hh $(SRCDIR)/config.hh $(SRCDIR)/connections.hh $(SRCDIR)/containers.hh $(SRCDIR)/cr.hh $(SRCDIR)/crypto.hh $(SRCDIR)/enums.hh $(SRCDIR)/houses.hh $(SRCDIR)/info.hh $(SRCDIR)/magic.hh $(SRCDIR)/map.hh $(SRCDIR)/moveuse.hh $(SRCDIR)/objects.hh $(SRCDIR)/operate.hh $(SRCDIR)/query.hh $(SRCDIR)/reader.hh $(SRCDIR)/script.hh $(SRCDIR)/threads.hh $(SRCDIR)/writer.hh $(SRCDIR)/platform/platform.h
 
-$(BUILDDIR)/$(OUTPUTEXE): $(BUILDDIR)/communication.obj $(BUILDDIR)/config.obj $(BUILDDIR)/connections.obj $(BUILDDIR)/cract.obj $(BUILDDIR)/crcombat.obj $(BUILDDIR)/crmain.obj $(BUILDDIR)/crnonpl.obj $(BUILDDIR)/crplayer.obj $(BUILDDIR)/crskill.obj $(BUILDDIR)/crypto.obj $(BUILDDIR)/houses.obj $(BUILDDIR)/info.obj $(BUILDDIR)/magic.obj $(BUILDDIR)/main.obj $(BUILDDIR)/map.obj $(BUILDDIR)/moveuse.obj $(BUILDDIR)/objects.obj $(BUILDDIR)/operate.obj $(BUILDDIR)/query.obj $(BUILDDIR)/reader.obj $(BUILDDIR)/receiving.obj $(BUILDDIR)/script.obj $(BUILDDIR)/sending.obj $(BUILDDIR)/shm.obj $(BUILDDIR)/strings.obj $(BUILDDIR)/threads.obj $(BUILDDIR)/time.obj $(BUILDDIR)/utils.obj $(BUILDDIR)/writer.obj
+$(BUILDDIR)/$(OUTPUTEXE): $(BUILDDIR)/communication.obj $(BUILDDIR)/config.obj $(BUILDDIR)/connections.obj $(BUILDDIR)/cract.obj $(BUILDDIR)/crcombat.obj $(BUILDDIR)/crmain.obj $(BUILDDIR)/crnonpl.obj $(BUILDDIR)/crplayer.obj $(BUILDDIR)/crskill.obj $(BUILDDIR)/crypto.obj $(BUILDDIR)/houses.obj $(BUILDDIR)/info.obj $(BUILDDIR)/magic.obj $(BUILDDIR)/main.obj $(BUILDDIR)/map.obj $(BUILDDIR)/moveuse.obj $(BUILDDIR)/objects.obj $(BUILDDIR)/operate.obj $(BUILDDIR)/query.obj $(BUILDDIR)/reader.obj $(BUILDDIR)/receiving.obj $(BUILDDIR)/script.obj $(BUILDDIR)/sending.obj $(BUILDDIR)/shm.obj $(BUILDDIR)/strings.obj $(BUILDDIR)/threads.obj $(BUILDDIR)/time.obj $(BUILDDIR)/utils.obj $(BUILDDIR)/writer.obj $(BUILDDIR)/platform_linux.obj $(BUILDDIR)/platform_windows.obj
 	$(CC) $(CFLAGS) -o $@ $^ $(LFLAGS)
 
 $(BUILDDIR)/communication.obj: $(SRCDIR)/communication.cc $(HEADERS)
@@ -134,15 +134,22 @@ $(BUILDDIR)/writer.obj: $(SRCDIR)/writer.cc $(HEADERS)
 	@mkdir -p $(@D)
 	$(CC) -c $(CFLAGS) -o $@ $<
 
+$(BUILDDIR)/platform_linux.obj: $(SRCDIR)/platform/platform_linux.cc $(HEADERS)
+	@mkdir -p $(@D)
+	$(CC) -c $(CFLAGS) -o $@ $<
+
+$(BUILDDIR)/platform_windows.obj: $(SRCDIR)/platform/platform_windows.cc $(HEADERS)
+	@mkdir -p $(@D)
+	$(CC) -c $(CFLAGS) -o $@ $<
+
 .PHONY: clean test
 
 test: $(BUILDDIR)/test_strings
 	./$(BUILDDIR)/test_strings
 
-$(BUILDDIR)/test_strings: tests/test_strings.cc $(BUILDDIR)/strings.obj $(BUILDDIR)/utils.obj
+$(BUILDDIR)/test_strings: tests/test_strings.cc $(BUILDDIR)/strings.obj $(BUILDDIR)/utils.obj $(BUILDDIR)/platform_linux.obj $(BUILDDIR)/platform_windows.obj
 	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) -o $@ $^ $(LFLAGS)
 
 clean:
 	@rm -rf $(BUILDDIR)
-

@@ -1,4 +1,5 @@
 #include "communication.hh"
+#include "platform/platform.h"
 #include "config.hh"
 #include "connections.hh"
 #include "containers.hh"
@@ -1558,6 +1559,7 @@ void CheckThreadlibVersion(void){
 }
 
 void InitCommunication(void){
+	Platform_SocketsInit();
 	CheckThreadlibVersion();
 	InitCommunicationThreadStacks();
 	InitLoadHistory();
@@ -1615,4 +1617,5 @@ void ExitCommunication(void){
 	QueryManagerConnectionPool.exit();
 	ExitLoadHistory();
 	ExitCommunicationThreadStacks();
+	Platform_SocketsCleanup();
 }

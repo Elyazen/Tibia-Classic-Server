@@ -1,4 +1,5 @@
 #include "common.hh"
+#include "platform/platform.h"
 
 // IMPORTANT(fusion): `RoundNr` is just the number of seconds since startup which
 // is why `GetRoundAtTime` and `GetRoundForNextMinute` straight up uses it as
@@ -18,20 +19,7 @@ struct tm GetLocalTimeTM(time_t t){
 }
 
 int64 GetClockMonotonicMS(void){
-#if OS_WINDOWS
-	LARGE_INTEGER Counter, Frequency;
-	QueryPerformanceCounter(&Counter);
-	QueryPerformanceFrequency(&Frequency);
-	return (int64)((Counter.QuadPart * 1000) / Frequency.QuadPart);
-#else
-	// NOTE(fusion): The coarse monotonic clock has a larger resolution but is
-	// supposed to be faster, even avoiding system calls in some cases. It should
-	// be fine for millisecond precision which is what we're using.
-	struct timespec Time;
-	clock_gettime(CLOCK_MONOTONIC_COARSE, &Time);
-	return ((int64)Time.tv_sec * 1000)
-		+ ((int64)Time.tv_nsec / 1000000);
-#endif
+	return Platform_GetMonotonicMS();
 }
 
 void GetRealTime(int *Hour, int *Minute){

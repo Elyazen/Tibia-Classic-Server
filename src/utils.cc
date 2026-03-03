@@ -1,4 +1,5 @@
 #include "common.hh"
+#include "platform/platform.h"
 
 #include <sys/stat.h>
 
@@ -89,15 +90,7 @@ int random(int Min, int Max){
 }
 
 bool FileExists(const char *FileName){
-	struct stat Buffer;
-	bool Result = true;
-	if(stat(FileName, &Buffer) != 0){
-		if(errno != ENOENT){
-			error("FileExists: Unerwarteter Fehlercode %d.\n", errno);
-		}
-		Result = false;
-	}
-	return Result;
+	return Platform_FileExists(FileName);
 }
 
 // String Utility
