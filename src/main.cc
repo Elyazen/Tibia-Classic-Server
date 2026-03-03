@@ -220,7 +220,7 @@ static void LockGame(void){
 void LoadWorldConfig(void){
 	TQueryManagerConnection Connection(KB(16));
 	if(!Connection.isConnected()){
-		error("LoadWorldConfig: Kann nicht zum Query-Manager verbinden.\n");
+		error("LoadWorldConfig: Cannot connect to query manager.\n");
 		throw "cannot connect to querymanager";
 	}
 
@@ -231,7 +231,7 @@ void LoadWorldConfig(void){
 			&MaxPlayers, &PremiumPlayerBuffer,
 			&MaxNewbies, &PremiumNewbieBuffer);
 	if(Ret != 0){
-		error("LoadWorldConfig: Kann Konfigurationsdaten nicht holen.\n");
+		error("LoadWorldConfig: Cannot fetch configuration data.\n");
 		throw "cannot load world config";
 	}
 
@@ -298,7 +298,7 @@ static void ProcessCommand(void){
 			if(Buffer != NULL){
 				BroadcastMessage(TALK_ADMIN_MESSAGE, "%s", Buffer);
 			}else{
-				error("ProcessCommand: Text für Broadcast ist NULL.\n");
+				error("ProcessCommand: Text for broadcast is NULL.\n");
 			}
 		}else{
 			error("ProcessCommand: Unbekanntes Kommando %d.\n", Command);
@@ -431,7 +431,7 @@ static void AdvanceGame(int Delay){
 	}
 
 	if(Delay > Beat){
-		Log("lag", "Verzögerung %d msec.\n", Delay);
+		Log("lag", "delay %d msec.\n", Delay);
 	}
 
 	// TODO(fusion): Why would we delay creature movement yet another beat?
@@ -440,7 +440,7 @@ static void AdvanceGame(int Delay){
 		Lag = false;
 	}else{
 		if(!Lag && RoundNr > 10){
-			error("AdvanceGame: Keine Kreaturbewegung wegen Lag (Verzögerung: %d msec).\n", Delay);
+			error("AdvanceGame: No creature movement due to lag (Delay: %d msec).\n", Delay);
 		}
 		Lag = true;
 	}
@@ -461,7 +461,7 @@ static void LaunchGame(void){
 	SigHandler(SIGUSR1, SigUsr1Handler);
 	StartGame();
 
-	print(1, "LaunchGame: Game-Server ist bereit (Pid=%d, Tid=%d).\n", getpid(), gettid());
+	print(1, "LaunchGame: Game server is ready (Pid=%d, Tid=%d).\n", getpid(), gettid());
 
 	// IMPORTANT(fusion): In general signal handlers can execute on any thread in
 	// the process group but the design of the server is to use signals directed
@@ -571,10 +571,10 @@ int main(int argc, char **argv){
 		snprintf(FileName, sizeof(FileName), "%s/reboot-daily", BINPATH);
 		if(FileExists(FileName)){
 			ExitAll();
-			print(1, "Starte Game-Server neu...\n");
+			print(1, "Restart game server...\n");
 			execv(FileName, argv);
 		}else{
-			print(1, "Reboot-Skript existiert nicht.\n");
+			print(1, "Reboot script does not exist.\n");
 		}
 	}
 

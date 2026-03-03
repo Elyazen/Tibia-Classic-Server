@@ -31,7 +31,7 @@ void InsertOrder(TReaderThreadOrderType OrderType,
 		int SectorX, int SectorY, int SectorZ, uint32 CharacterID){
 	int Orders = (OrderPointerWrite - OrderPointerRead);
 	if(Orders >= NARRAY(OrderBuffer)){
-		error("InsertOrder (Reader): Order-Puffer ist voll => Vergrößern.\n");
+		error("InsertOrder (Reader): Order buffer is full => Enlarge.\n");
 	}
 
 	OrderBufferEmpty.down();
@@ -131,7 +131,7 @@ void ProcessLoadCharacterOrder(uint32 CharacterID){
 	while(true){
 		TPlayerData *Slot = AssignPlayerPoolSlot(CharacterID, true);
 		if(Slot == NULL){
-			error("ProcessLoadCharacterOrder: Kann keinen Slot für Spielerdaten zuweisen.\n");
+			error("ProcessLoadCharacterOrder: Cannot allocate slot for player data.\n");
 			break;
 		}
 
@@ -185,7 +185,7 @@ void InsertReply(TReaderThreadReplyType ReplyType,
 		int SectorX, int SectorY, int SectorZ, uint8 *Data, int Size){
 	int Replies = (ReplyPointerWrite - ReplyPointerRead);
 	while(Replies > NARRAY(ReplyBuffer)){
-		error("InsertReply (Reader): Puffer ist voll; warte...\n");
+		error("InsertReply (Reader): Buffer is full; wait...\n");
 		DelayThread(5, 0);
 	}
 
@@ -251,7 +251,7 @@ void ProcessReaderThreadReplies(TRefreshSectorFunction *RefreshSector, TSendMail
 			}
 
 			default:{
-				error("ProcessReaderThreadReplies: Unbekannte Rückmeldung %d.\n", Reply.ReplyType);
+				error("ProcessReaderThreadReplies: Unknown response %d.\n", Reply.ReplyType);
 				break;
 			}
 		}
