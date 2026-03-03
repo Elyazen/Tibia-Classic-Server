@@ -1434,6 +1434,7 @@ const char *GetBanishmentReason(int Reason){
 }
 
 void InitInfo(void){
+	if(getenv("TIBIA_TEST_MODE") != NULL) return;
 	// no-op
 }
 

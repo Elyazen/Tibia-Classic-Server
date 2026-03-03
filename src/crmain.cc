@@ -2115,6 +2115,7 @@ void ProcessMonsterRaids(void){
 // Initialization
 // =============================================================================
 void InitCr(void){
+	if(getenv("TIBIA_TEST_MODE") != NULL) return;
 	NextCreatureID = 0x40000000;
 	FirstFreeCreature = 0;
 	FirstChainCreature = new matrix<uint32>(

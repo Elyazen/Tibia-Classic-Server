@@ -361,6 +361,18 @@ static void DetachSHM(void){
 }
 
 void InitSHM(bool Verbose){
+	if(getenv("TIBIA_TEST_MODE") != NULL){
+		IsGameServer = true;
+		VerboseOutput = Verbose;
+		SHM = (TSharedMemory*)malloc(sizeof(TSharedMemory));
+		memset(SHM, 0, sizeof(TSharedMemory));
+		SHM->GameState = GAME_STARTING;
+		SHM->GameProcessID = getpid();
+		SHM->GameThreadID = gettid();
+		SetErrorFunction(ErrorHandler);
+		SetPrintFunction(PrintHandler);
+		return;
+	}
 	IsGameServer = true;
 	VerboseOutput = Verbose;
 

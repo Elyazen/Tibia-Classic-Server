@@ -1711,6 +1711,7 @@ void PatchSector(int SectorX, int SectorY, int SectorZ, bool FullSector,
 }
 
 void InitMap(void){
+	if(getenv("TIBIA_TEST_MODE") != NULL) return;
 	ReadMapConfig();
 
 	Sector = new matrix3d<TSector*>(SectorXMin, SectorXMax,
