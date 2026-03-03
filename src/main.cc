@@ -218,6 +218,14 @@ static void LockGame(void){
 }
 
 void LoadWorldConfig(void){
+	if(getenv("TIBIA_TEST_MODE") != NULL){
+		WorldType = NORMAL;
+		sprintf(GameAddress, "127.0.0.1");
+		GamePort = 7171;
+		MaxPlayers = 100;
+		MaxNewbies = 10;
+		return;
+	}
 	TQueryManagerConnection Connection(KB(16));
 	if(!Connection.isConnected()){
 		error("LoadWorldConfig: Cannot connect to query manager.\n");

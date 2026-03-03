@@ -1,0 +1,133 @@
+[
+  {
+    "event": "connect",
+    "test": "A",
+    "iter": 0
+  },
+  {
+    "event": "disconnect",
+    "test": "A",
+    "iter": 0
+  },
+  {
+    "event": "connect",
+    "test": "A",
+    "iter": 1
+  },
+  {
+    "event": "disconnect",
+    "test": "A",
+    "iter": 1
+  },
+  {
+    "event": "connect",
+    "test": "A",
+    "iter": 2
+  },
+  {
+    "event": "disconnect",
+    "test": "A",
+    "iter": 2
+  },
+  {
+    "event": "connect",
+    "test": "A",
+    "iter": 3
+  },
+  {
+    "event": "disconnect",
+    "test": "A",
+    "iter": 3
+  },
+  {
+    "event": "connect",
+    "test": "A",
+    "iter": 4
+  },
+  {
+    "event": "disconnect",
+    "test": "A",
+    "iter": 4
+  },
+  {
+    "event": "connect",
+    "test": "B"
+  },
+  {
+    "event": "send",
+    "test": "B",
+    "bytes": 7
+  },
+  {
+    "event": "recv",
+    "test": "B",
+    "bytes": 0
+  },
+  {
+    "event": "disconnect",
+    "test": "B"
+  },
+  {
+    "event": "connect",
+    "test": "C",
+    "fuzz_iter": 0
+  },
+  {
+    "event": "send",
+    "test": "C",
+    "fuzz_iter": 0,
+    "bytes": 102
+  },
+  {
+    "event": "timeout",
+    "test": "C",
+    "fuzz_iter": 0
+  },
+  {
+    "event": "disconnect",
+    "test": "C",
+    "fuzz_iter": 0
+  },
+  {
+    "event": "connect",
+    "test": "C",
+    "fuzz_iter": 1
+  },
+  {
+    "event": "send",
+    "test": "C",
+    "fuzz_iter": 1,
+    "bytes": 2
+  },
+  {
+    "event": "timeout",
+    "test": "C",
+    "fuzz_iter": 1
+  },
+  {
+    "event": "disconnect",
+    "test": "C",
+    "fuzz_iter": 1
+  },
+  {
+    "event": "connect",
+    "test": "C",
+    "fuzz_iter": 2
+  },
+  {
+    "event": "send",
+    "test": "C",
+    "fuzz_iter": 2,
+    "bytes": 3
+  },
+  {
+    "event": "timeout",
+    "test": "C",
+    "fuzz_iter": 2
+  },
+  {
+    "event": "disconnect",
+    "test": "C",
+    "fuzz_iter": 2
+  }
+]

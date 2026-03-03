@@ -1948,6 +1948,7 @@ void ProcessHouses(void){
 }
 
 void InitHouses(void){
+	if(getenv("TIBIA_TEST_MODE") != NULL) return;
 	// TODO(fusion): Connect to query manager HERE then pass the connection around
 	// house initialization and processing functions. It is currently connecting in
 	// `LoadHouses`, used by other functions, then deleted at the end of this function.

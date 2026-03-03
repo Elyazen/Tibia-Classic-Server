@@ -996,6 +996,7 @@ void ClearPlayers(void){
 }
 
 void InitWriter(void){
+	if(getenv("TIBIA_TEST_MODE") != NULL) return;
 	// TODO(fusion): No idea what's this about.
 	int QueryBufferSize = std::max<int>(KB(16), MaxPlayers * 66 + 2);
 	QueryManagerConnection = new TQueryManagerConnection(QueryBufferSize);

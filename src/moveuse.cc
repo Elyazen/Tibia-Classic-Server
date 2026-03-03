@@ -3081,6 +3081,7 @@ void LoadDataBase(void){
 }
 
 void InitMoveUse(void){
+	if(getenv("TIBIA_TEST_MODE") != NULL) return;
 	NumberOfMoveUseConditions = 0;
 	NumberOfMoveUseActions = 0;
 	DelayedMails = 0;

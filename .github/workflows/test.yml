@@ -1,0 +1,58 @@
+name: "Tibia Server CI"
+on:
+  pull_request:
+    branches: [ "main", "master" ]
+  push:
+    branches: [ "main", "master" ]
+
+jobs:
+  test-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: sudo apt-get update && sudo apt-get install -y libssl-dev netcat-openbsd python3
+
+      - name: Build the game
+        run: make clean && make -j$(nproc)
+
+      - name: Setup test harness & Run server
+        run: |
+          source tests/harness/run_server.sh
+          echo "TEST_DIR=$TEST_DIR" >> $GITHUB_ENV
+
+      - name: Run scenarios
+        run: |
+          python3 tests/scenarios/run_scenarios.py "$TEST_DIR/logs"
+
+      - name: Stop server
+        run: |
+          source tests/harness/stop_server.sh
+
+      - name: Compare logs and traces
+        run: |
+          python3 tests/compare.py tests/golden/linux "$TEST_DIR/logs"
+
+      - name: Upload Test Artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: linux-logs
+          path: ${{ env.TEST_DIR }}/logs/
+
+  test-windows:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Build and Run Windows Harness
+        run: |
+          # TODO: Add Windows build instructions
+          # For now, just a placeholder that calls the script
+          echo "Placeholder for Windows test run"
+          # .\tests\harness\run_server.ps1 -Build
+          # python .\tests\scenarios\run_scenarios.py "$env:TEST_DIR\logs"
+          # .\tests\compare.py tests\golden\windows "$env:TEST_DIR\logs"

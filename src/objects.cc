@@ -614,6 +614,7 @@ static void LoadConversionList(void){
 }
 
 void InitObjects(void){
+	if(getenv("TIBIA_TEST_MODE") != NULL) return;
 	LoadObjects();
 	LoadConversionList();
 }

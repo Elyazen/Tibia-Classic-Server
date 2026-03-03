@@ -5153,6 +5153,7 @@ static void InitSpells(void){
 }
 
 void InitMagic(void){
+	if(getenv("TIBIA_TEST_MODE") != NULL) return;
 	InitCircles();
 	InitSpells();
 	InitLog("banish");

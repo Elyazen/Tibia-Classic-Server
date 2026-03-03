@@ -1688,6 +1688,7 @@ TQueryManagerConnectionPool::TQueryManagerConnectionPool(int Connections) :
 }
 
 void TQueryManagerConnectionPool::init(void){
+	if(getenv("TIBIA_TEST_MODE") != NULL) return;
 	this->QueryManagerConnection = new TQueryManagerConnection[this->NumberOfConnections];
 	this->QueryManagerConnectionFree = new bool[this->NumberOfConnections];
 	for(int i = 0; i < this->NumberOfConnections; i += 1){
