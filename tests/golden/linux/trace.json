@@ -2,132 +2,202 @@
   {
     "event": "connect",
     "test": "A",
-    "iter": 0
+    "iter": 0,
+    "timestamp": "<TIMESTAMP>"
   },
   {
     "event": "disconnect",
     "test": "A",
-    "iter": 0
+    "iter": 0,
+    "timestamp": "<TIMESTAMP>"
   },
   {
     "event": "connect",
     "test": "A",
-    "iter": 1
+    "iter": 1,
+    "timestamp": "<TIMESTAMP>"
   },
   {
     "event": "disconnect",
     "test": "A",
-    "iter": 1
+    "iter": 1,
+    "timestamp": "<TIMESTAMP>"
   },
   {
     "event": "connect",
     "test": "A",
-    "iter": 2
+    "iter": 2,
+    "timestamp": "<TIMESTAMP>"
   },
   {
     "event": "disconnect",
     "test": "A",
-    "iter": 2
+    "iter": 2,
+    "timestamp": "<TIMESTAMP>"
   },
   {
     "event": "connect",
     "test": "A",
-    "iter": 3
+    "iter": 3,
+    "timestamp": "<TIMESTAMP>"
   },
   {
     "event": "disconnect",
     "test": "A",
-    "iter": 3
+    "iter": 3,
+    "timestamp": "<TIMESTAMP>"
   },
   {
     "event": "connect",
     "test": "A",
-    "iter": 4
+    "iter": 4,
+    "timestamp": "<TIMESTAMP>"
   },
   {
     "event": "disconnect",
     "test": "A",
-    "iter": 4
+    "iter": 4,
+    "timestamp": "<TIMESTAMP>"
   },
   {
     "event": "connect",
-    "test": "B"
+    "test": "B",
+    "timestamp": "<TIMESTAMP>"
   },
   {
     "event": "send",
     "test": "B",
-    "bytes": 7
+    "bytes": 7,
+    "timestamp": "<TIMESTAMP>"
   },
   {
     "event": "recv",
     "test": "B",
-    "bytes": 0
+    "bytes": 0,
+    "timestamp": "<TIMESTAMP>"
   },
   {
     "event": "disconnect",
-    "test": "B"
+    "test": "B",
+    "timestamp": "<TIMESTAMP>"
   },
   {
     "event": "connect",
     "test": "C",
-    "fuzz_iter": 0
+    "fuzz_iter": 0,
+    "timestamp": "<TIMESTAMP>"
   },
   {
     "event": "send",
     "test": "C",
     "fuzz_iter": 0,
-    "bytes": 102
+    "bytes": 102,
+    "timestamp": "<TIMESTAMP>"
   },
   {
     "event": "timeout",
     "test": "C",
-    "fuzz_iter": 0
+    "fuzz_iter": 0,
+    "timestamp": "<TIMESTAMP>"
   },
   {
     "event": "disconnect",
     "test": "C",
-    "fuzz_iter": 0
+    "fuzz_iter": 0,
+    "timestamp": "<TIMESTAMP>"
   },
   {
     "event": "connect",
     "test": "C",
-    "fuzz_iter": 1
+    "fuzz_iter": 1,
+    "timestamp": "<TIMESTAMP>"
   },
   {
     "event": "send",
     "test": "C",
     "fuzz_iter": 1,
-    "bytes": 2
+    "bytes": 2,
+    "timestamp": "<TIMESTAMP>"
   },
   {
     "event": "timeout",
     "test": "C",
-    "fuzz_iter": 1
+    "fuzz_iter": 1,
+    "timestamp": "<TIMESTAMP>"
   },
   {
     "event": "disconnect",
     "test": "C",
-    "fuzz_iter": 1
+    "fuzz_iter": 1,
+    "timestamp": "<TIMESTAMP>"
   },
   {
     "event": "connect",
     "test": "C",
-    "fuzz_iter": 2
+    "fuzz_iter": 2,
+    "timestamp": "<TIMESTAMP>"
   },
   {
     "event": "send",
     "test": "C",
     "fuzz_iter": 2,
-    "bytes": 3
+    "bytes": 3,
+    "timestamp": "<TIMESTAMP>"
   },
   {
     "event": "timeout",
     "test": "C",
-    "fuzz_iter": 2
+    "fuzz_iter": 2,
+    "timestamp": "<TIMESTAMP>"
   },
   {
     "event": "disconnect",
     "test": "C",
-    "fuzz_iter": 2
+    "fuzz_iter": 2,
+    "timestamp": "<TIMESTAMP>"
+  },
+  {
+    "event": "connect",
+    "test": "D",
+    "timestamp": "<TIMESTAMP>"
+  },
+  {
+    "event": "send",
+    "test": "D",
+    "bytes": 3,
+    "timestamp": "<TIMESTAMP>"
+  },
+  {
+    "event": "recv",
+    "test": "D",
+    "bytes": 0,
+    "timestamp": "<TIMESTAMP>"
+  },
+  {
+    "event": "disconnect",
+    "test": "D",
+    "timestamp": "<TIMESTAMP>"
+  },
+  {
+    "event": "connect",
+    "test": "E",
+    "timestamp": "<TIMESTAMP>"
+  },
+  {
+    "event": "send",
+    "test": "E",
+    "bytes": 3,
+    "timestamp": "<TIMESTAMP>"
+  },
+  {
+    "event": "recv",
+    "test": "E",
+    "bytes": 42,
+    "timestamp": "<TIMESTAMP>"
+  },
+  {
+    "event": "disconnect",
+    "test": "E",
+    "timestamp": "<TIMESTAMP>"
   }
 ]
