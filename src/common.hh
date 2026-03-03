@@ -13,6 +13,7 @@
 #include <time.h>
 
 #include <algorithm>
+#include <random>
 
 typedef uint8_t uint8;
 typedef uint16_t uint16;
@@ -180,6 +181,7 @@ void LogFileHandler(const char *Text);
 void LogFileHandler(int Level, const char *Text);
 void error(const char *Text, ...) ATTR_PRINTF(1, 2);
 void print(int Level, const char *Text, ...) ATTR_PRINTF(2, 3);
+uint32 GetSecureRandom(void);
 int random(int Min, int Max);
 bool FileExists(const char *FileName);
 

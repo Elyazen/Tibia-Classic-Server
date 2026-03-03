@@ -74,6 +74,11 @@ void print(int Level, const char *Text, ...){
 	}
 }
 
+uint32 GetSecureRandom(void){
+	static std::random_device Device;
+	return Device();
+}
+
 int random(int Min, int Max){
 	int Range = (Max - Min) + 1;
 	int Result = Min;

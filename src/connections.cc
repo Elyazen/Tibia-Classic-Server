@@ -180,7 +180,7 @@ void TConnection::Connect(int Socket){
 	this->Socket = Socket;
 	this->ConnectionIsOk = true;
 	this->ClosingIsDelayed = true;
-	this->RandomSeed = rand();
+	this->RandomSeed = GetSecureRandom();
 
 	struct sockaddr_in RemoteAddr;
 	socklen_t RemoteAddrLen = sizeof(RemoteAddr);

@@ -249,7 +249,7 @@ static void InitAll(void){
 		InitSHM(!BeADaemon);
 		LockGame();
 		InitLog("game");
-		srand(time(NULL));
+		srand(GetSecureRandom());
 		InitSignalHandler();
 		InitConnections();
 		InitCommunication();
