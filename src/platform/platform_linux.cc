@@ -26,7 +26,7 @@ void Platform_SleepUS(uint64 US) {
 
 int64 Platform_GetMonotonicMS(void) {
     struct timespec Time;
-    clock_gettime(CLOCK_MONOTONIC, &Time);
+    clock_gettime(CLOCK_MONOTONIC_COARSE, &Time);
     return ((int64)Time.tv_sec * 1000) + ((int64)Time.tv_nsec / 1000000);
 }
 

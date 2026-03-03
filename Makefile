@@ -134,11 +134,11 @@ $(BUILDDIR)/writer.obj: $(SRCDIR)/writer.cc $(HEADERS)
 	@mkdir -p $(@D)
 	$(CC) -c $(CFLAGS) -o $@ $<
 
-$(BUILDDIR)/platform_linux.obj: $(SRCDIR)/platform/platform_linux.cc $(SRCDIR)/platform/platform.h $(HEADERS)
+$(BUILDDIR)/platform_linux.obj: $(SRCDIR)/platform/platform_linux.cc $(HEADERS)
 	@mkdir -p $(@D)
 	$(CC) -c $(CFLAGS) -o $@ $<
 
-$(BUILDDIR)/platform_windows.obj: $(SRCDIR)/platform/platform_windows.cc $(SRCDIR)/platform/platform.h $(HEADERS)
+$(BUILDDIR)/platform_windows.obj: $(SRCDIR)/platform/platform_windows.cc $(HEADERS)
 	@mkdir -p $(@D)
 	$(CC) -c $(CFLAGS) -o $@ $<
 
