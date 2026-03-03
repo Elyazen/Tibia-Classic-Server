@@ -32,6 +32,15 @@ def compare_logs(baseline_file, target_file):
 
     return diffs
 
+def normalize_trace_event(event):
+    """Normalizes a single trace event dictionary by masking dynamic fields."""
+    normalized = dict(event)
+    # Mask out fields that are environment or time-dependent to prevent flakiness
+    for key in ['timestamp', 'fd', 'pid', 'time']:
+        if key in normalized:
+            normalized[key] = f"<{key.upper()}>"
+    return normalized
+
 def compare_traces(baseline_file, target_file):
     with open(baseline_file, 'r') as f:
         baseline_trace = json.load(f)
@@ -43,12 +52,8 @@ def compare_traces(baseline_file, target_file):
         diffs.append(f"Event count mismatch: {len(baseline_trace)} != {len(target_trace)}")
 
     for i in range(min(len(baseline_trace), len(target_trace))):
-        b = baseline_trace[i]
-        t = target_trace[i]
-
-        for key in ['timestamp', 'fd', 'pid']:
-            if key in b: b[key] = f"<{key.upper()}>"
-            if key in t: t[key] = f"<{key.upper()}>"
+        b = normalize_trace_event(baseline_trace[i])
+        t = normalize_trace_event(target_trace[i])
 
         if b != t:
             diffs.append(f"Event {i} mismatch:\n- {b}\n+ {t}")
