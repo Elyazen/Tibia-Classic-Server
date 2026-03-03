@@ -20,6 +20,11 @@ void Platform_SleepMS(uint32 MS) {
     Sleep(MS);
 }
 
+void Platform_SleepUS(uint64 US) {
+    // Windows Sleep has millisecond precision.
+    Sleep((DWORD)(US / 1000));
+}
+
 int64 Platform_GetMonotonicMS(void) {
     LARGE_INTEGER Counter, Frequency;
     QueryPerformanceCounter(&Counter);
@@ -34,9 +39,9 @@ int64 Platform_GetWallClockMS(void) {
     LargeInt.LowPart = FileTime.dwLowDateTime;
     LargeInt.HighPart = FileTime.dwHighDateTime;
     // Windows file time is 100ns intervals since 1601-01-01.
-    // Convert to milliseconds and adjust to Unix epoch if needed?
-    // For now just consistent MS is probably fine as a skeleton.
-    return (int64)(LargeInt.QuadPart / 10000);
+    // Convert to Unix Epoch (1970-01-01)
+    // 116444736000000000 is the number of 100ns intervals between 1601 and 1970.
+    return (int64)((LargeInt.QuadPart - 116444736000000000ULL) / 10000);
 }
 
 bool Platform_FileExists(const char* Path) {

@@ -1,4 +1,5 @@
 #include "threads.hh"
+#include "platform/platform.h"
 
 struct TThreadStarter {
 	ThreadFunction *Function;
@@ -110,10 +111,8 @@ int JoinThread(ThreadHandle Handle){
 void DelayThread(int Seconds, int MicroSeconds){
 	if(Seconds == 0 && MicroSeconds == 0){
 		sched_yield();
-	}else if(MicroSeconds == 0){
-		sleep(Seconds);
 	}else{
-		usleep(MicroSeconds + Seconds * 1000000);
+		Platform_SleepUS((uint64)Seconds * 1000000 + (uint64)MicroSeconds);
 	}
 }
 

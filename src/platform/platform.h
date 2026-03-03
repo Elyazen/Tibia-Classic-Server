@@ -7,6 +7,7 @@ void Platform_SocketsInit(void);
 void Platform_SocketsCleanup(void);
 
 void Platform_SleepMS(uint32 MS);
+void Platform_SleepUS(uint64 US);
 
 int64 Platform_GetMonotonicMS(void);
 int64 Platform_GetWallClockMS(void);
