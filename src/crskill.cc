@@ -42,7 +42,7 @@ int TSkill::GetProgress(void){
 			if(this->Master != NULL){
 				MasterName = this->Master->Name;
 			}
-			error("# Spieler %s - Skill %d\n", MasterName, this->SkNr);
+			error("# Player %s -Skill %d\n", MasterName, this->SkNr);
 			Result = 0;
 		}
 	}
@@ -268,7 +268,7 @@ void TSkillLevel::Increase(int Amount){
 		this->NextLevel = this->GetExpForLevel(this->Act + 1);
 		if(this->NextLevel < 0){
 			// BUG(fusion): We don't check if `Master` is valid here?
-			error("TSkillLevel::Increase: Skill vor Überlauf (%s, Skill %d).\n", this->Master->Name, this->SkNr);
+			error("TSkillLevel::Increase: Skill before overflow (%s,Skill %d).\n", this->Master->Name, this->SkNr);
 			this->NextLevel = this->Exp;
 			this->Exp -= 1000000;
 			break;
@@ -335,17 +335,17 @@ void TSkillLevel::Decrease(int Amount){
 
 int TSkillLevel::GetExpForLevel(int Level){
 	if(Level < 1){
-		error("TSkillLevel::GetExpForLevel: Ungültiger Level %d.\n", Level);
+		error("TSkillLevel::GetExpForLevel: Invalid level %d.\n", Level);
 		return 0;
 	}
 
 	if(this->Delta <= 0){
-		error("TSkillLevel::GetExpForLevel: Ungültiger Delta-Wert %d.\n", this->Delta);
+		error("TSkillLevel::GetExpForLevel: Invalid delta value %d.\n", this->Delta);
 		return 0;
 	}
 
 	if(Level > 500){
-		error("TSkillLevel::GetExpForLevel: Level=%d; Formel gegen Überlauf sichern.\n", Level);
+		error("TSkillLevel::GetExpForLevel: Level=%d; Secure formula against overflow.\n", Level);
 		return -1; // TODO(fusion): Shouldn't this be 0?
 	}
 
@@ -402,7 +402,7 @@ void TSkillProbe::Increase(int Amount){
 		this->NextLevel = this->GetExpForLevel(this->Act + 1);
 		if(this->NextLevel < 0){
 			// BUG(fusion): We don't check if `Master` is valid here?
-			error("TSkillProbe::Increase: Skill vor Überlauf (%s, Skill %d).\n", this->Master->Name, this->SkNr);
+			error("TSkillProbe::Increase: Skill before overflow (%s,Skill %d).\n", this->Master->Name, this->SkNr);
 			this->NextLevel = this->Exp;
 			this->Exp -= 1000;
 			break;
@@ -471,12 +471,12 @@ void TSkillProbe::Decrease(int Amount){
 
 int TSkillProbe::GetExpForLevel(int Level){
 	if(Level < 0 || Level < this->Min){
-		error("TSkillProbe::GetExpForLevel: Ungültiger Level %d.\n", Level);
+		error("TSkillProbe::GetExpForLevel: Invalid level %d.\n", Level);
 		return 0;
 	}
 
 	if(this->Delta <= 0){
-		error("TSkillProbe::GetExpForLevel: Ungültiger Delta-Wert %d.\n", this->Delta);
+		error("TSkillProbe::GetExpForLevel: Invalid delta value %d.\n", this->Delta);
 		return 0;
 	}
 
@@ -484,7 +484,7 @@ int TSkillProbe::GetExpForLevel(int Level){
 	if(FactorPercent < 1050){
 		if(FactorPercent != 1000){
 			const char *MasterName = (this->Master != NULL ? this->Master->Name : "---");
-			error("TSkillProbe::GetExpForLevel: Ungültiger FactorPercent-Wert %d bei %s."
+			error("TSkillProbe::GetExpForLevel: Invalid FactorPercent value %d at %s."
 					" Rechne mit 1000 weiter.\n", FactorPercent, MasterName);
 		}
 		return (Level - this->Min) * this->Delta;
@@ -682,7 +682,7 @@ void TSkillAdd::Advance(int Range){
 void TSkillHitpoints::Set(int Value){
 	TCreature *Master = this->Master;
 	if(Master != NULL && Master->IsDead && Value > 0){
-		error("TSkillHitpoints::Set: HP von toter Kreatur sollen erhöht werden.\n");
+		error("TSkillHitpoints::Set: HP of dead creature should be increased.\n");
 		return;
 	}
 
@@ -1164,7 +1164,7 @@ bool TSkillBase::NewSkill(uint16 SkillNo, TCreature *Creature){
 
 bool TSkillBase::SetSkills(int Race){
 	if(!IsRaceValid(Race)){
-		error("TSkillBase::SetSkills: Ungültige Rassennummer %d.\n", Race);
+		error("TSkillBase::SetSkills: Invalid race number %d.\n", Race);
 		return false;
 	}
 

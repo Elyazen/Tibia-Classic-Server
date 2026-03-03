@@ -76,7 +76,7 @@ bool Compare(int Value1, int Operator, int Value2){
 		case 'L': Result = (Value1 <= Value2); break;
 		case 'G': Result = (Value1 >= Value2); break;
 		default:{
-			error("Compare: Ungültiger Operator %d.\n", Operator);
+			error("Compare: Invalid operator %d.\n", Operator);
 			break;
 		}
 	}
@@ -230,7 +230,7 @@ bool CheckCondition(MoveUseEventType EventType, TMoveUseCondition *Condition,
 					if(SkillNr >= 0 && SkillNr < NARRAY(Creature->Skills)){
 						Result = Creature->Skills[SkillNr]->Probe(Difficulty, Probability, true);
 					}else{
-						error("CheckCondition (TestSkill): Ungültige Skillnummer %d.\n", SkillNr);
+						error("CheckCondition (TestSkill): Invalid skill number %d.\n", SkillNr);
 					}
 				}
 			}
@@ -341,7 +341,7 @@ bool CheckCondition(MoveUseEventType EventType, TMoveUseCondition *Condition,
 				int ObjPosition = (int)ObjType.getAttribute(BODYPOSITION);
 				Result = (CurPosition == ObjPosition);
 			}else{
-				error("CheckCondition (IsDressed): Objekt ist kein Kleidungsstück.\n");
+				error("CheckCondition (IsDressed): Object is not a piece of clothing.\n");
 			}
 			break;
 		}
@@ -390,7 +390,7 @@ Object CreateObject(Object Con, ObjectType Type, uint32 Value){
 			}else{
 				int ConX, ConY, ConZ;
 				GetObjectCoordinates(Con, &ConX, &ConY, &ConZ);
-				error("moveuse::CreateObject: Exception %d, Objekt %d, Position [%d,%d,%d].\n",
+				error("moveuse::CreateObject: Exception %d, object %d, position [%d,%d,%d].\n",
 						r, Type.TypeID, ConX, ConY, ConZ);
 				return NONE;
 			}
@@ -400,7 +400,7 @@ Object CreateObject(Object Con, ObjectType Type, uint32 Value){
 
 void ChangeObject(Object Obj, ObjectType NewType, uint32 Value){
 	if(!Obj.exists()){
-		error("ChangeObject: Übergebenes Objekt existiert nicht (1, NewType=%d).\n", NewType.TypeID);
+		error("ChangeObject: Passed object does not exist (1, NewType=%d).\n", NewType.TypeID);
 		return;
 	}
 
@@ -411,7 +411,7 @@ void ChangeObject(Object Obj, ObjectType NewType, uint32 Value){
 	Object SplitDest = Obj.getContainer();
 	for(int Attempt = 0; true; Attempt += 1){
 		if(!Obj.exists()){
-			error("ChangeObject: Übergebenes Objekt existiert nicht (2, NewType=%d).\n", NewType.TypeID);
+			error("ChangeObject: Passed object does not exist (2, NewType=%d).\n", NewType.TypeID);
 			return;
 		}
 
@@ -428,7 +428,7 @@ void ChangeObject(Object Obj, ObjectType NewType, uint32 Value){
 			return;
 		}catch(RESULT r){
 			if(!Obj.exists()){
-				error("ChangeObject: Übergebenes Objekt existiert nicht (3, NewType=%d).\n", NewType.TypeID);
+				error("ChangeObject: Passed object does not exist (3, NewType=%d).\n", NewType.TypeID);
 				return;
 			}
 
@@ -461,24 +461,24 @@ void ChangeObject(Object Obj, ObjectType NewType, uint32 Value){
 
 void MoveOneObject(Object Obj, Object Con){
 	if(!Obj.exists()){
-		error("MoveOneObject: Übergebenes Objekt existiert nicht.\n");
+		error("MoveOneObject: Passed object does not exist.\n");
 		return;
 	}
 
 	if(!Con.exists()){
-		error("MoveOneObject: Übergebener Container existiert nicht.\n");
+		error("MoveOneObject: Passed container does not exist.\n");
 		return;
 	}
 
 	ObjectType ConType = Con.getObjectType();
 	if(!ConType.getFlag(CONTAINER)){
-		error("MoveOneObject: \"Con\" ist kein Container.\n");
+		error("MoveOneObject: \"Con\" is not a container.\n");
 		return;
 	}
 
 	ObjectType ObjType = Obj.getObjectType();
 	if(ObjType.isCreatureContainer() && !ConType.isMapContainer()){
-		error("MoveOneObject: \"Con\" ist kein MapContainer.\n");
+		error("MoveOneObject: \"Con\" is not a MapContainer.\n");
 		return;
 	}
 
@@ -508,7 +508,7 @@ void MoveAllObjects(Object Obj, Object Dest, Object Exclude, bool MoveUnmovable)
 	}
 
 	if(!Dest.getObjectType().isMapContainer()){
-		error("MoveAllObjects: \"Dest\" ist kein Mapcontainer.\n");
+		error("MoveAllObjects: \"Dest\" is not a map container.\n");
 		return;
 	}
 
@@ -527,7 +527,7 @@ void MoveAllObjects(Object Obj, Object Dest, Object Exclude, bool MoveUnmovable)
 			if(r != DESTROYED){
 				int DestX, DestY, DestZ;
 				GetObjectCoordinates(Dest, &DestX, &DestY, &DestZ);
-				error("MoveAllObjects: Exception %d; Objekt %d, Zielkoordinate [%d,%d,%d].\n",
+				error("MoveAllObjects: Exception %d; object %d, target coordinate [%d,%d,%d].\n",
 						r, ObjType.TypeID, DestX, DestY, DestZ);
 			}
 		}
@@ -547,7 +547,7 @@ void DeleteAllObjects(Object Obj, Object Exclude, bool DeleteUnmovable){
 		if(ObjType.isCreatureContainer()){
 			int ObjX, ObjY, ObjZ;
 			GetObjectCoordinates(Obj, &ObjX, &ObjY, &ObjZ);
-			error("DeleteAllObjects: An Position [%d,%d,%d] soll eine Kreatur gelöscht werden.\n",
+			error("DeleteAllObjects: At position [%d,%d,%d] a creature should be deleted.\n",
 					ObjX, ObjY, ObjZ);
 			return;
 		}
@@ -574,7 +574,7 @@ void ClearField(Object Obj, Object Exclude){
 	// I've kept the same ordering used by the original function.
 
 	if(!Obj.exists()){
-		error("ClearField: Objekt existiert nicht.\n");
+		error("ClearField: Object does not exist.\n");
 		return;
 	}
 
@@ -620,17 +620,17 @@ void ClearField(Object Obj, Object Exclude){
 void LoadDepotBox(uint32 CreatureID, int Nr, Object Con){
 	TPlayer *Player = GetPlayer(CreatureID);
 	if(Player == NULL){
-		error("moveuse::LoadDepotBox: Kreatur nicht gefunden.\n");
+		error("moveuse::LoadDepotBox: Creature not found.\n");
 		return;
 	}
 
 	if(!Con.exists()){
-		error("moveuse::LoadDepotBox: Übergebener Container existiert nicht.\n");
+		error("moveuse::LoadDepotBox: Passed container does not exist.\n");
 		return;
 	}
 
 	if(!Con.getObjectType().getFlag(CONTAINER)){
-		error("moveuse::LoadDepotBox: Übergebenes Objekt ist kein Container.\n");
+		error("moveuse::LoadDepotBox: Passed object is not a container.\n");
 		return;
 	}
 
@@ -644,7 +644,7 @@ void LoadDepotBox(uint32 CreatureID, int Nr, Object Con){
 	Player->DepotNr = Nr;
 	Player->DepotSpace = DepotSpace;
 
-	print(3, "Depot von %s hat %d freie Plätze.\n", Player->Name, DepotSpace);
+	print(3, "Depot of %s has %d Free places.\n", Player->Name, DepotSpace);
 	SendMessage(Player->Connection, TALK_STATUS_MESSAGE,
 			"Your depot contains %d item%s.",
 			DepotObjects, (DepotObjects != 1 ? "s" : ""));
@@ -658,24 +658,24 @@ void LoadDepotBox(uint32 CreatureID, int Nr, Object Con){
 void SaveDepotBox(uint32 CreatureID, int Nr, Object Con){
 	TPlayer *Player = GetPlayer(CreatureID);
 	if(Player == NULL){
-		error("moveuse::SaveDepotBox: Kreatur nicht gefunden.\n");
+		error("moveuse::SaveDepotBox: Creature not found.\n");
 		return;
 	}
 
 	if(!Con.exists()){
-		error("moveuse::SaveDepotBox: Übergebener Container existiert nicht.\n");
+		error("moveuse::SaveDepotBox: Passed container does not exist.\n");
 		return;
 	}
 
 	if(!Con.getObjectType().getFlag(CONTAINER)){
-		error("moveuse::SaveDepotBox: Übergebenes Objekt ist kein Container.\n");
+		error("moveuse::SaveDepotBox: Passed object is not a container.\n");
 		return;
 	}
 
 	int DepotObjects = CountObjects(Con) - 1;
-	Log("game", "Speichere Depot %d von %s ... Depotgröße: %d.\n",
+	Log("game", "Save Depot %d from %s ... depot size: %d.\n",
 			Nr, Player->Name, DepotObjects);
-	print(3, "Depot von %s: berechnete freie Plätze %d, tatsächliche Objekte %d.\n",
+	print(3, "Depot of %s: calculated free places %d, actual objects %d.\n",
 			Player->Name, Player->DepotSpace, DepotObjects);
 
 	SaveDepot(Player->PlayerData, Nr, Con);
@@ -711,7 +711,7 @@ static int ReadLine(char *Dest, int DestCapacity, const char *Text, int ReadPos)
 
 void SendMail(Object Obj){
 	if(!Obj.exists()){
-		error("SendMail: Übergebenes Objekt existiert nicht.\n");
+		error("SendMail: Passed object does not exist.\n");
 		return;
 	}
 
@@ -789,7 +789,7 @@ void SendMail(Object Obj){
 	}
 
 	if(PlayerOnline && Player->Depot != NONE && Player->DepotNr == DepotNr){
-		print(3, "Adressat ist eingeloggt und hat Depot offen.\n");
+		print(3, "The addressee is logged in and has an account open.\n");
 		try{
 			Move(0, Obj, Player->Depot, -1, true, NONE);
 			if(ObjType == GetSpecialObject(LETTER_NEW)){
@@ -799,7 +799,7 @@ void SendMail(Object Obj){
 			}
 			Log("game", "Post an %s in %s versandt.\n", Addressee, Town);
 			Player->DepotSpace -= CountObjects(Obj);
-			print(3, "Depot von %s hat jetzt %d freie Plätze.\n", Player->Name, Player->DepotSpace);
+			print(3, "Depot of %s has now %d Free places.\n", Player->Name, Player->DepotSpace);
 			SendMessage(Player->Connection, TALK_INFO_MESSAGE, "New mail has arrived.");
 			print(3, "Post erfolgreich versandt.\n");
 		}catch(RESULT r){
@@ -810,7 +810,7 @@ void SendMail(Object Obj){
 			print(3, "Exception %d beim Postversand.\n", r);
 		}
 	}else{
-		print(3, "Adressat ist nicht eingeloggt oder hat Depot geschlossen.\n");
+		print(3, "The addressee is not logged in or has closed the depot.\n");
 
 		// TODO(fusion): The scope of this try block was unclear but I suppose
 		// this is correct due to how `Change` is also inside the try block in
@@ -835,34 +835,34 @@ void SendMail(Object Obj){
 			memcpy(Mail->Packet, WriteBuffer.Data, WriteBuffer.Position);
 			DelayedMails += 1;
 
-			Log("game", "Post an %s in %s zurückgestellt.\n", Addressee, Town);
-			print(3, "Post zurückgestellt.\n");
+			Log("game", "Post to %s in %s deferred.\n", Addressee, Town);
+			print(3, "Post deferred.\n");
 			if(PlayerOnline){
 				SendMails(Player->PlayerData);
 			}else{
 				LoadCharacterOrder(CharacterID);
 			}
 		}catch(RESULT r){
-			error("SendMail: Kann Paket nicht löschen (%d).\n", r);
+			error("SendMail: Cannot delete package (%d).\n", r);
 		}catch(const char *str){
-			error("SendMail: Kann Paket nicht schreiben (%s).\n", str);
+			error("SendMail: Cannot write package (%s).\n", str);
 		}
 	}
 }
 
 void SendMails(TPlayerData *PlayerData){
 	if(PlayerData == NULL){
-		error("SendMails: PlayerData ist NULL.\n");
+		error("SendMails: PlayerData is NULL.\n");
 		return;
 	}
 
 	if(PlayerData->CharacterID == 0){
-		error("SendMails: Slot ist nicht belegt.\n");
+		error("SendMails: Slot is not occupied.\n");
 		return;
 	}
 
 	if(PlayerData->Locked != gettid()){
-		error("SendMails: Slot ist nicht vom GameThread gesperrt.\n");
+		error("SendMails: Slot is not blocked by GameThread.\n");
 		return;
 	}
 
@@ -874,7 +874,7 @@ void SendMails(TPlayerData *PlayerData){
 
 		int DepotNr = Mail->DepotNumber;
 		if(DepotNr < 0 || DepotNr >= MAX_DEPOTS){
-			error("SendMails: Ungültige Depotnummer %d.\n", DepotNr);
+			error("SendMails: Invalid depot number %d.\n", DepotNr);
 			DepotNr = 0;
 		}
 
@@ -920,7 +920,7 @@ void SendMails(TPlayerData *PlayerData){
 
 void TextEffect(const char *Text, int x, int y, int z, int Radius){
 	if(Text == NULL){
-		error("TextEffect: Text existiert nicht.\n");
+		error("TextEffect: Text does not exist.\n");
 		return;
 	}
 
@@ -1028,7 +1028,7 @@ void ExecuteAction(MoveUseEventType EventType, TMoveUseAction *Action,
 				if(*Temp != NONE){
 					ChangeObject(*Temp, NewType, NewValue);
 				}else{
-					error("ExecuteAction (CHANGEONMAP): Kein Objekt %d auf [%d,%d,%d].\n",
+					error("ExecuteAction (CHANGEONMAP): No object %d on [%d,%d,%d].\n",
 							OldType.TypeID, CoordX, CoordY, CoordZ);
 				}
 				break;
@@ -1054,7 +1054,7 @@ void ExecuteAction(MoveUseEventType EventType, TMoveUseAction *Action,
 				if(*Temp != NONE){
 					ChangeObject(*Temp, NewType, NewValue);
 				}else{
-					error("ExecuteAction (CHANGEREL): Kein Objekt %d auf [%d,%d,%d].\n",
+					error("ExecuteAction (CHANGEREL): No object %d on [%d,%d,%d].\n",
 							OldType.TypeID, (ObjX + RelX), (ObjY + RelY), (ObjZ + RelZ));
 				}
 				break;
@@ -1096,10 +1096,10 @@ void ExecuteAction(MoveUseEventType EventType, TMoveUseAction *Action,
 					if(Creature != NULL && Creature->Type == PLAYER){
 						((TPlayer*)Creature)->SetQuestValue(QuestNr, QuestValue);
 					}else{
-						error("ExecuteAction (SETQUESTVALUE): Kreatur existiert nicht oder ist kein Spieler.\n");
+						error("ExecuteAction (SETQUESTVALUE): Creature does not exist or is not a player.\n");
 					}
 				}else{
-					error("ExecuteAction (SETQUESTVALUE): Objekt ist keine Kreatur, sondern Typ %d.\n", ObjType.TypeID);
+					error("ExecuteAction (SETQUESTVALUE): Object is not a creature, but a type %d.\n", ObjType.TypeID);
 				}
 				break;
 			}
@@ -1131,10 +1131,10 @@ void ExecuteAction(MoveUseEventType EventType, TMoveUseAction *Action,
 					if(Victim != NULL){
 						Victim->Damage(Attacker, Damage, DamageType);
 					}else{
-						error("ExecuteAction (DAMAGE): Kreatur existiert nicht.\n");
+						error("ExecuteAction (DAMAGE): Creature does not exist.\n");
 					}
 				}else{
-					error("ExecuteAction (DAMAGE): Objekt ist keine Kreatur, sondern Typ %d.\n", VictimType.TypeID);
+					error("ExecuteAction (DAMAGE): Object is not a creature, but a type %d.\n", VictimType.TypeID);
 				}
 				break;
 			}
@@ -1296,7 +1296,7 @@ void ExecuteAction(MoveUseEventType EventType, TMoveUseAction *Action,
 					Object Dest = GetMapContainer(DestX, DestY, DestZ);
 					MoveAllObjects(Obj.getNextObject(), Dest, NONE, true);
 				}else{
-					error("ExecuteAction (MOVETOPONMAP): Kein Objekt %d auf [%d,%d,%d].\n",
+					error("ExecuteAction (MOVETOPONMAP): No object %d on [%d,%d,%d].\n",
 							Type.TypeID, OrigX, OrigY, OrigZ);
 				}
 				break;
@@ -1388,7 +1388,7 @@ void ExecuteAction(MoveUseEventType EventType, TMoveUseAction *Action,
 							|| EventType == MOVEUSE_EVENT_MULTIUSE);
 					Delete(Obj, (IsUseEvent ? 1 : -1));
 				}else{
-					error("ExecuteAction (DELETEONMAP): Kein Objekt %d auf [%d,%d,%d].\n",
+					error("ExecuteAction (DELETEONMAP): No object %d on [%d,%d,%d].\n",
 							Type.TypeID, CoordX, CoordY, CoordZ);
 				}
 				break;
@@ -1535,18 +1535,18 @@ bool HandleEvent(MoveUseEventType EventType, Object User, Object Obj1, Object Ob
 // =============================================================================
 void UseContainer(uint32 CreatureID, Object Con, int NextContainerNr){
 	if(!Con.exists()){
-		error("UseContainer: Übergebenes Objekt existiert nicht.\n");
+		error("UseContainer: Passed object does not exist.\n");
 		throw ERROR;
 	}
 
 	ObjectType ConType = Con.getObjectType();
 	if(!ConType.getFlag(CONTAINER)){
-		error("UseContainer: Übergebenes Objekt ist kein Container.\n");
+		error("UseContainer: Passed object is not a container.\n");
 		throw ERROR;
 	}
 
 	if(NextContainerNr < 0 || NextContainerNr >= NARRAY(TPlayer::OpenContainer)){
-		error("UseContainer: Ungültige Fensternummer %d.\n", NextContainerNr);
+		error("UseContainer: Invalid window number %d.\n", NextContainerNr);
 		throw ERROR;
 	}
 
@@ -1556,7 +1556,7 @@ void UseContainer(uint32 CreatureID, Object Con, int NextContainerNr){
 
 	TPlayer *Player = GetPlayer(CreatureID);
 	if(Player == NULL){
-		error("UseContainer: Spieler %d existiert nicht.\n", CreatureID);
+		error("UseContainer: Player %d does not exist.\n", CreatureID);
 		throw ERROR;
 	}
 
@@ -1580,13 +1580,13 @@ void UseContainer(uint32 CreatureID, Object Con, int NextContainerNr){
 
 void UseChest(uint32 CreatureID, Object Chest){
 	if(!Chest.exists()){
-		error("UseChest: Übergebenes Objekt existiert nicht.\n");
+		error("UseChest: Passed object does not exist.\n");
 		throw ERROR;
 	}
 
 	ObjectType ChestType = Chest.getObjectType();
 	if(!ChestType.getFlag(CHEST)){
-		error("UseChest: Übergebenes Objekt ist keine Schatztruhe.\n");
+		error("UseChest: Passed object is not a treasure chest.\n");
 		throw ERROR;
 	}
 
@@ -1595,13 +1595,13 @@ void UseChest(uint32 CreatureID, Object Chest){
 
 	int QuestNr = (int)Chest.getAttribute(CHESTQUESTNUMBER);
 	if(QuestNr < 0 || QuestNr >= NARRAY(TPlayer::QuestValues)){
-		error("UseChest: Ungültige Nummer %d auf Schatztruhe an Position [%d,%d,%d].\n",
+		error("UseChest: Invalid number %d on treasure chest at position [%d,%d,%d].\n",
 				QuestNr, ChestX, ChestY, ChestZ);
 		throw ERROR;
 	}
 
 	if(CountObjectsInContainer(Chest) != 1){
-		error("UseChest: Schatztruhe auf Position [%d,%d,%d] enthält nicht genau ein Objekt.\n",
+		error("UseChest: Treasure chest at position [%d,%d,%d] does not contain exactly one object.\n",
 				ChestX, ChestY, ChestZ);
 		throw ERROR;
 	}
@@ -1609,19 +1609,19 @@ void UseChest(uint32 CreatureID, Object Chest){
 	Object Treasure = GetFirstContainerObject(Chest);
 	ObjectType TreasureType = Treasure.getObjectType();
 	if(TreasureType.getFlag(UNMOVE) || !TreasureType.getFlag(TAKE)){
-		error("UseChest: Schatz auf Position [%d,%d,%d] ist nicht nehmbar.\n",
+		error("UseChest: Treasure on position [%d,%d,%d] is not acceptable.\n",
 				ChestX, ChestY, ChestZ);
 		throw ERROR;
 	}
 
 	TPlayer *Player = GetPlayer(CreatureID);
 	if(Player == NULL){
-		error("UseChest: Spieler %u existiert nicht.\n", CreatureID);
+		error("UseChest: Player %u does not exist.\n", CreatureID);
 		throw ERROR;
 	}
 
 	if(Player->GetQuestValue(QuestNr) != 0){
-		print(3, "Schatztruhe ist schon bekannt.\n");
+		print(3, "Treasure chest is already known.\n");
 		SendMessage(Player->Connection, TALK_INFO_MESSAGE,
 				"The %s is empty.", ChestType.getName(-1));
 		return;
@@ -1691,19 +1691,19 @@ void UseChest(uint32 CreatureID, Object Chest){
 
 void UseLiquidContainer(uint32 CreatureID, Object Obj, Object Dest){
 	if(!Obj.exists()){
-		error("UseLiquidContainer: Übergebenes Objekt Obj existiert nicht.\n");
+		error("UseLiquidContainer: Passed object Obj does not exist.\n");
 		throw ERROR;
 	}
 
 	ObjectType ObjType = Obj.getObjectType();
 	if(!Dest.exists()){
-		error("UseLiquidContainer: Übergebenes Objekt Dest existiert nicht (Obj %d).\n",
+		error("UseLiquidContainer: Passed object Dest does not exist (Obj %d).\n",
 				ObjType.TypeID);
 		throw ERROR;
 	}
 
 	if(!ObjType.getFlag(LIQUIDCONTAINER)){
-		error("UseLiquidContainer: Übergebenes Objekt ist kein Flüssigkeitscontainer.\n");
+		error("UseLiquidContainer: Passed object is not a liquid container.\n");
 		throw ERROR;
 	}
 
@@ -1763,7 +1763,7 @@ void UseLiquidContainer(uint32 CreatureID, Object Obj, Object Dest){
 	// NOTE(fusion): Drink liquid.
 	TPlayer *Player = GetPlayer(CreatureID);
 	if(Player == NULL){
-		error("UseLiquidContainer: Spieler %d existiert nicht.\n", CreatureID);
+		error("UseLiquidContainer: Player %d does not exist.\n", CreatureID);
 		throw ERROR;
 	}
 
@@ -1820,19 +1820,19 @@ void UseLiquidContainer(uint32 CreatureID, Object Obj, Object Dest){
 
 void UseFood(uint32 CreatureID, Object Obj){
 	if(!Obj.exists()){
-		error("UseFood: Übergebenes Objekt existiert nicht.\n");
+		error("UseFood: Passed object does not exist.\n");
 		throw ERROR;
 	}
 
 	ObjectType ObjType = Obj.getObjectType();
 	if(!ObjType.getFlag(FOOD)){
-		error("UseFood: Übergebenes Objekt ist kein Nahrungsmittel.\n");
+		error("UseFood: Passed object is not food.\n");
 		throw ERROR;
 	}
 
 	TPlayer *Player = GetPlayer(CreatureID);
 	if(Player == NULL){
-		error("UseFood: Kreatur %u existiert nicht.\n", CreatureID);
+		error("UseFood: Creature %u does not exist.\n", CreatureID);
 		throw ERROR;
 	}
 
@@ -1849,19 +1849,19 @@ void UseFood(uint32 CreatureID, Object Obj){
 
 void UseTextObject(uint32 CreatureID, Object Obj){
 	if(!Obj.exists()){
-		error("UseTextObject: Übergebenes Objekt existiert nicht.\n");
+		error("UseTextObject: Passed object does not exist.\n");
 		throw ERROR;
 	}
 
 	ObjectType ObjType = Obj.getObjectType();
 	if(!ObjType.getFlag(TEXT)){
-		error("UseTextObject: Übergebenes Objekt ist kein Schriftstück.\n");
+		error("UseTextObject: Passed object is not a document.\n");
 		throw ERROR;
 	}
 
 	TPlayer *Player = GetPlayer(CreatureID);
 	if(Player == NULL){
-		error("UseTextObject: Kreatur %u existiert nicht.\n", CreatureID);
+		error("UseTextObject: Creature %u does not exist.\n", CreatureID);
 		throw ERROR;
 	}
 
@@ -1870,19 +1870,19 @@ void UseTextObject(uint32 CreatureID, Object Obj){
 
 void UseAnnouncer(uint32 CreatureID, Object Obj){
 	if(!Obj.exists()){
-		error("UseAnnouncer: Übergebenes Objekt existiert nicht.\n");
+		error("UseAnnouncer: Passed object does not exist.\n");
 		throw ERROR;
 	}
 
 	ObjectType ObjType = Obj.getObjectType();
 	if(!ObjType.getFlag(INFORMATION)){
-		error("UseAnnouncer: Übergebenes Objekt liefert keine Informationen.\n");
+		error("UseAnnouncer: Passed object does not provide any information.\n");
 		throw ERROR;
 	}
 
 	TPlayer *Player = GetPlayer(CreatureID);
 	if(Player == NULL){
-		error("UseAnnouncer: Kreatur %d existiert nicht.\n", CreatureID);
+		error("UseAnnouncer: Creature %d does not exist.\n", CreatureID);
 		throw ERROR;
 	}
 
@@ -1950,7 +1950,7 @@ void UseAnnouncer(uint32 CreatureID, Object Obj){
 		}
 
 		default:{
-			error("UseAnnouncer: Ungültiger Informationstyp %d.\n", Information);
+			error("UseAnnouncer: Invalid information type %d.\n", Information);
 			break;
 		}
 	}
@@ -1958,18 +1958,18 @@ void UseAnnouncer(uint32 CreatureID, Object Obj){
 
 void UseKeyDoor(uint32 CreatureID, Object Key, Object Door){
 	if(!Key.exists()){
-		error("UseKeyDoor: Übergebenes Objekt Key existiert nicht.\n");
+		error("UseKeyDoor: Passed object Key does not exist.\n");
 		throw ERROR;
 	}
 
 	if(!Door.exists()){
-		error("UseKeyDoor: Übergebenes Objekt Door existiert nicht.\n");
+		error("UseKeyDoor: Passed Door object does not exist.\n");
 		throw ERROR;
 	}
 
 	ObjectType KeyType = Key.getObjectType();
 	if(!KeyType.getFlag(KEY)){
-		error("UseKeyDoor: Übergebenes Objekt ist kein Schlüssel.\n");
+		error("UseKeyDoor: Passed object is not a key.\n");
 		throw ERROR;
 	}
 
@@ -1986,7 +1986,7 @@ void UseKeyDoor(uint32 CreatureID, Object Key, Object Door){
 
 	ObjectType KeyDoorTarget = (int)DoorType.getAttribute(KEYDOORTARGET);
 	if(KeyDoorTarget.isMapContainer()){
-		error("UseKeyDoor: Zieltür für Tür %d nicht spezifiziert.\n",
+		error("UseKeyDoor: Target door for door %d unspecified.\n",
 				DoorType.TypeID);
 		throw ERROR;
 	}
@@ -2000,24 +2000,24 @@ void UseKeyDoor(uint32 CreatureID, Object Key, Object Door){
 
 void UseNameDoor(uint32 CreatureID, Object Door){
 	if(!Door.exists()){
-		error("UseNameDoor: Übergebenes Objekt Door existiert nicht.\n");
+		error("UseNameDoor: Passed object Door does not exist.\n");
 		throw ERROR;
 	}
 
 	ObjectType DoorType = Door.getObjectType();
 	if(!DoorType.getFlag(NAMEDOOR)){
-		error("UseNameDoor: Übergebenes Objekt Door ist keine beschriftete Tür.\n");
+		error("UseNameDoor: Passed object Door is not a labeled door.\n");
 		throw ERROR;
 	}
 
 	if(!DoorType.getFlag(TEXT)){
-		error("UseNameDoor: Übergebenes Objekt Door trägt keinen Text.\n");
+		error("UseNameDoor: Passed Door object does not contain any text.\n");
 		throw ERROR;
 	}
 
 	TPlayer *Player = GetPlayer(CreatureID);
 	if(Player == NULL){
-		error("UseNameDoor: Spieler existiert nicht.\n");
+		error("UseNameDoor: Player does not exist.\n");
 		throw ERROR;
 	}
 
@@ -2026,7 +2026,7 @@ void UseNameDoor(uint32 CreatureID, Object Door){
 
 	uint16 HouseID = GetHouseID(DoorX, DoorY, DoorZ);
 	if(HouseID == 0){
-		error("UseNameDoor: Koordinate [%d,%d,%d] gehört zu keinem Haus.\n",
+		error("UseNameDoor: coordinate [%d,%d,%d] does not belong to any house.\n",
 				DoorX, DoorY, DoorZ);
 		throw ERROR;
 	}
@@ -2039,7 +2039,7 @@ void UseNameDoor(uint32 CreatureID, Object Door){
 
 	ObjectType NameDoorTarget = (int)DoorType.getAttribute(NAMEDOORTARGET);
 	if(NameDoorTarget.isMapContainer()){
-		error("UseNameDoor: Zieltür für Tür %d nicht spezifiziert.\n",
+		error("UseNameDoor: Target door for door %d unspecified.\n",
 				DoorType.TypeID);
 		throw ERROR;
 	}
@@ -2054,13 +2054,13 @@ void UseNameDoor(uint32 CreatureID, Object Door){
 void UseLevelDoor(uint32 CreatureID, Object Door){
 	if(!Door.exists() || !Door.getObjectType().getFlag(LEVELDOOR)
 			|| !Door.getContainer().getObjectType().isMapContainer()){
-		error("UseLevelDoor: Übergebenes Objekt Door ist keine Level-Tür.\n");
+		error("UseLevelDoor: Passed object Door is not a level door.\n");
 		throw ERROR;
 	}
 
 	TPlayer *Player = GetPlayer(CreatureID);
 	if(Player == NULL){
-		error("UseLevelDoor: Spieler existiert nicht.\n");
+		error("UseLevelDoor: Player does not exist.\n");
 		throw ERROR;
 	}
 
@@ -2078,7 +2078,7 @@ void UseLevelDoor(uint32 CreatureID, Object Door){
 
 	ObjectType LevelDoorTarget = (int)DoorType.getAttribute(LEVELDOORTARGET);
 	if(LevelDoorTarget.isMapContainer() || LevelDoorTarget.getFlag(UNPASS)){
-		error("UseLevelDoor: Zieltür für Tür %d nicht spezifiziert oder nicht passierbar.\n",
+		error("UseLevelDoor: Target door for door %d unspecified or impassable.\n",
 				DoorType.TypeID);
 		throw ERROR;
 	}
@@ -2090,13 +2090,13 @@ void UseLevelDoor(uint32 CreatureID, Object Door){
 void UseQuestDoor(uint32 CreatureID, Object Door){
 	if(!Door.exists() || !Door.getObjectType().getFlag(QUESTDOOR)
 			|| !Door.getContainer().getObjectType().isMapContainer()){
-		error("UseQuestDoor: Übergebenes Objekt Door ist keine Quest-Tür.\n");
+		error("UseQuestDoor: Passed object Door is not a quest door.\n");
 		throw ERROR;
 	}
 
 	TPlayer *Player = GetPlayer(CreatureID);
 	if(Player == NULL){
-		error("UseQuestDoor: Spieler existiert nicht.\n");
+		error("UseQuestDoor: Player does not exist.\n");
 		throw ERROR;
 	}
 
@@ -2114,7 +2114,7 @@ void UseQuestDoor(uint32 CreatureID, Object Door){
 
 	ObjectType QuestDoorTarget = (int)DoorType.getAttribute(QUESTDOORTARGET);
 	if(QuestDoorTarget.isMapContainer() || QuestDoorTarget.getFlag(UNPASS)){
-		error("UseQuestDoor: Zieltür für Tür %d nicht spezifiziert oder nicht passierbar.\n",
+		error("UseQuestDoor: Target door by door %d unspecified or impassable.\n",
 				DoorType.TypeID);
 		throw ERROR;
 	}
@@ -2125,18 +2125,18 @@ void UseQuestDoor(uint32 CreatureID, Object Door){
 
 void UseWeapon(uint32 CreatureID, Object Weapon, Object Target){
 	if(!Weapon.exists() || !Weapon.getObjectType().isCloseWeapon()){
-		error("UseWeapon: Übergebene Waffe existiert nicht oder ist keine Waffe.\n");
+		error("UseWeapon: Surrendered weapon does not exist or is not a weapon.\n");
 		throw ERROR;
 	}
 
 	if(!Target.exists() || !Target.getObjectType().getFlag(DESTROY)){
-		error("UseWeapon: Übergebenes Ziel existiert nicht oder ist nicht zerstörbar.\n");
+		error("UseWeapon: Passed target does not exist or is not destructible.\n");
 		throw ERROR;
 	}
 
 	TPlayer *Player = GetPlayer(CreatureID);
 	if(Player == NULL){
-		error("UseWeapon: Spieler %d existiert nicht.\n", CreatureID);
+		error("UseWeapon: Player %d does not exist.\n", CreatureID);
 		throw ERROR;
 	}
 
@@ -2165,13 +2165,13 @@ void UseWeapon(uint32 CreatureID, Object Weapon, Object Target){
 
 void UseChangeObject(uint32 CreatureID, Object Obj){
 	if(!Obj.exists() || !Obj.getObjectType().getFlag(CHANGEUSE)){
-		error("UseChangeObject: Objekt existiert nicht oder ist kein CHANGEUSE-Objekt.\n");
+		error("UseChangeObject: Object does not exist or is not a CHANGEUSE object.\n");
 		throw ERROR;
 	}
 
 	TPlayer *Player = GetPlayer(CreatureID);
 	if(Player == NULL){
-		error("UseChangeObject: Spieler %d existiert nicht.\n", CreatureID);
+		error("UseChangeObject: Player %d does not exist.\n", CreatureID);
 		throw ERROR;
 	}
 
@@ -2209,12 +2209,12 @@ void UseChangeObject(uint32 CreatureID, Object Obj){
 
 void UseObject(uint32 CreatureID, Object Obj){
 	if(!Obj.exists()){
-		error("UseObjects: Übergebenes Objekt existiert nicht.\n");
+		error("UseObjects: Passed object does not exist.\n");
 		throw ERROR;
 	}
 
 	if(!Obj.getObjectType().getFlag(USEEVENT)){
-		error("UseObjects: Übergebenes Objekt ist nicht benutzbar.\n");
+		error("UseObjects: Passed object is not usable.\n");
 		throw ERROR;
 	}
 
@@ -2233,17 +2233,17 @@ void UseObject(uint32 CreatureID, Object Obj){
 
 void UseObjects(uint32 CreatureID, Object Obj1, Object Obj2){
 	if(!Obj1.exists()){
-		error("UseObjects: Übergebenes Objekt Obj1 existiert nicht.\n");
+		error("UseObjects: Passed object Obj1 does not exist.\n");
 		throw ERROR;
 	}
 
 	if(!Obj2.exists()){
-		error("UseObjects: Übergebenes Objekt Obj2 existiert nicht.\n");
+		error("UseObjects: Passed object Obj2 does not exist.\n");
 		throw ERROR;
 	}
 
 	if(!Obj1.getObjectType().getFlag(USEEVENT)){
-		error("UseObjects: Übergebenes Objekt Obj1 ist nicht benutzbar.\n");
+		error("UseObjects: Passed object Obj1 is not usable.\n");
 		throw ERROR;
 	}
 
@@ -2262,19 +2262,19 @@ void UseObjects(uint32 CreatureID, Object Obj1, Object Obj2){
 
 void MovementEvent(Object Obj, Object Start, Object Dest){
 	if(!Obj.exists()){
-		error("MovementEvent: Übergebenes Objekt existiert nicht.\n");
+		error("MovementEvent: Passed object does not exist.\n");
 		throw ERROR;
 	}
 
 	ObjectType StartType = Start.getObjectType();
 	if(!Start.exists() || (!StartType.getFlag(CONTAINER) && !StartType.getFlag(CHEST))){
-		error("MovementEvent: \"Start\" ist kein Container.\n");
+		error("MovementEvent: \"Start\" is not a container.\n");
 		throw ERROR;
 	}
 
 	ObjectType DestType = Dest.getObjectType();
 	if(!Dest.exists() || (!DestType.getFlag(CONTAINER) && !DestType.getFlag(CHEST))){
-		error("MovementEvent: \"Dest\" ist kein Container.\n");
+		error("MovementEvent: \"Dest\" is not a container.\n");
 		throw ERROR;
 	}
 
@@ -2288,12 +2288,12 @@ void MovementEvent(Object Obj, Object Start, Object Dest){
 
 void SeparationEvent(Object Obj, Object Start){
 	if(!Obj.exists()){
-		error("SeparationEvent: Übergebenes Objekt existiert nicht.\n");
+		error("SeparationEvent: Passed object does not exist.\n");
 		throw ERROR;
 	}
 
 	if(!Start.exists()){
-		error("SeparationEvent: Übergebener Container existiert nicht.\n");
+		error("SeparationEvent: Passed container does not exist.\n");
 		throw ERROR;
 	}
 
@@ -2330,7 +2330,7 @@ void SeparationEvent(Object Obj, Object Start){
 						? (int)HelpType.getAttribute(LEVELDOORTARGET)
 						: (int)HelpType.getAttribute(QUESTDOORTARGET);
 				if(DoorTarget.isMapContainer() || !DoorTarget.getFlag(UNPASS)){
-					error("SeparationEvent: Zieltür für Tür %d nicht spezifiziert oder passierbar.\n",
+					error("SeparationEvent: Target door for door %d not specified or passable.\n",
 							HelpType.TypeID);
 					throw ERROR;
 				}
@@ -2353,12 +2353,12 @@ void SeparationEvent(Object Obj, Object Start){
 
 void CollisionEvent(Object Obj, Object Dest){
 	if(!Obj.exists()){
-		error("CollisionEvent: Übergebenes Objekt existiert nicht.\n");
+		error("CollisionEvent: Passed object does not exist.\n");
 		throw ERROR;
 	}
 
 	if(!Dest.exists()){
-		error("CollisionEvent: Übergebener Container existiert nicht.\n");
+		error("CollisionEvent: Passed container does not exist.\n");
 		throw ERROR;
 	}
 
@@ -2975,7 +2975,7 @@ void LoadAction(TReadScriptFile *Script, TMoveUseAction *Action){
 }
 
 void LoadDataBase(void){
-	print(1, "Lade Move/Use-Datenbank ...\n");
+	print(1, "Load Move/Use database...\n");
 
 	char FileName[4096];
 	snprintf(FileName, sizeof(FileName), "%s/moveuse.dat", DATAPATH);
@@ -3089,7 +3089,7 @@ void InitMoveUse(void){
 
 void ExitMoveUse(void){
 	for(int i = 0; i < DelayedMails; i += 1){
-		error("ExitMoveUse: Paket an %u wurde nicht zugestellt.\n",
+		error("ExitMoveUse: Package on %u was not delivered.\n",
 				DelayedMail.at(i)->CharacterID);
 	}
 }
