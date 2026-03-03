@@ -17,11 +17,19 @@ void Platform_SocketsCleanup(void) {
 }
 
 void Platform_SleepMS(uint32 MS) {
-    usleep((useconds_t)MS * 1000);
+    if (MS >= 1000 && (MS % 1000) == 0) {
+        sleep(MS / 1000);
+    } else {
+        usleep((useconds_t)MS * 1000);
+    }
 }
 
 void Platform_SleepUS(uint64 US) {
-    usleep((useconds_t)US);
+    if (US >= 1000000 && (US % 1000000) == 0) {
+        sleep((unsigned int)(US / 1000000));
+    } else {
+        usleep((useconds_t)US);
+    }
 }
 
 int64 Platform_GetMonotonicMS(void) {

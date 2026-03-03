@@ -153,4 +153,3 @@ $(BUILDDIR)/test_strings: tests/test_strings.cc $(BUILDDIR)/strings.obj $(BUILDD
 
 clean:
 	@rm -rf $(BUILDDIR)
-
