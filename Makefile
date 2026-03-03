@@ -134,7 +134,14 @@ $(BUILDDIR)/writer.obj: $(SRCDIR)/writer.cc $(HEADERS)
 	@mkdir -p $(@D)
 	$(CC) -c $(CFLAGS) -o $@ $<
 
-.PHONY: clean
+.PHONY: clean test
+
+test: $(BUILDDIR)/test_strings
+	./$(BUILDDIR)/test_strings
+
+$(BUILDDIR)/test_strings: tests/test_strings.cc $(BUILDDIR)/strings.obj $(BUILDDIR)/utils.obj
+	@mkdir -p $(@D)
+	$(CC) $(CFLAGS) -o $@ $^ $(LFLAGS)
 
 clean:
 	@rm -rf $(BUILDDIR)
